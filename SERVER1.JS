@@ -1,19 +1,17 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-const bodyparser = require('body-parser')
-
 const app = express();
 
 app.use(cors())
-app.use(bodyparser.json());
+app.use(express.json());
 
 // Conecta com o banco de dados
 const db =  mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'crud'
+    database: 'crudequipe'
 })
 
 // Conecta ao banco de dados
@@ -21,56 +19,71 @@ db.connect((err) => {
     console.log('Conectado ao banco de dados!');
 });
 
-// Obter todos os produtos
-app.get('/equipe', cors(), (req, res) => {
+
+// Obter todos os Clientes
+app.get('/equipes', cors(), (req, res) => {
     let sql = 'SELECT * FROM equipe';
     db.query(sql, (err, results) => {
         res.json(results);
     });
 });
 
-// Adiciona Produtos
-app.post('/equipe', (req, res) => {
+// Obter um Cliente
+app.get('/equipes/:cpf', cors(), (req, res) => {
+    let sql = `SELECT * FROM equipe WHERE cpf=${req.params.cpf}`;
+    db.query(sql, (err, results) => {
+        res.json(results);
+    });
+});
+
+// Adiciona Clientes
+app.post('/equipes', (req, res) => {
     let equipe = req.body;
     let sql = 'INSERT INTO equipe SET ?';
     db.query(sql, equipe, (err, result) => {
         console.log(result);
-        
     });
-    res.json(equipe);
-    
+    res.status(201).json(equipe);
 });
 
-// Deleta Produtos
-app.delete('/equipe/:id', (req, res) => {
-    let sql = `DELETE FROM equipe WHERE id=${req.params.id}`;
+// Deleta clientes
+app.delete('/equipes/:cpf', (req, res) => {
+    let sql = `DELETE FROM equipe
+    WHERE cpf=${req.params.cpf}`;
     db.query(sql, (err, result) => {
-        if (err) throw err;
         res.send('Equipe Deletada!');
     });
 });
 
-// Altera Produtos
-app.put('/equipe/:id', (req, res) => {
+// Altera clientes
+app.put('/equipes/:cpf', (req, res) => {
     let equipe = req.body;
     let sql = `UPDATE equipe 
-    SET id='${equipe.id}',
+    SET 
+    cpf='${equipe.cpf}',
     nome='${equipe.nome}',
     email='${equipe.email}',
-    quantidade='${equipe.quantidade}',
+    senha='${equipe.senha}',
+    quantidade='${equipe.quantidade}', 
     especialidade='${equipe.especialidade}'
-    WHERE id='${req.params.id}'`;
+    WHERE cpf='${req.params.cpf}'`;
     
     db.query(sql, (err, result) => {
-        if (err) throw err;
-        res.json(equipe);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Ocorreu um erro durante a atualização da equipe.' });
+        } else {
+            console.log(result);
+            res.json(equipe);
+        }
     });
 });
+
 
 app.get('/', (request, response) => {
     response.send("Ola mundo")
 })
 
-app.listen(3001, () => {
-    console.log("Servidor aberto na porta 3001")
+app.listen(3002, () => {
+    console.log("Servidor aberto na porta 3002")
 })

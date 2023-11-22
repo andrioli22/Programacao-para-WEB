@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cadastramento de Equipe</title>
+<!-- Importando estilos do Bootstrap -->
+<link
+rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+</head>
+<body class="container mt-5">
+<h2>Cadastramento de Equipe</h2>
+<!-- Formulário para adicionar/editar produtos -->
+<form id="productForm" class="my-4">
+<div class="form-group">
+<input
+type="number"
+id="id"
+class="form-control"
+placeholder="ID"
+required
+/>
+</div>
+
+
+<div class="form-group">
+    <input
+    type="text"
+    id="nome"
+    class="form-control"
+    placeholder="nome"
+    required
+    />
+    </div>
+
+<div class="form-group">
+<input
+type="text"
+id="email"
+class="form-control"
+placeholder="email"
+required
+/>
+</div>
+
+<div class="form-group">
+    <input
+    type="number"
+    id="quantidade"
+    class="form-control"
+    placeholder="quantidade"
+    required
+    />
+</div>
+
+<div class="form-group">
+    <input
+    type="text"
+    id="especialidade"
+    class="form-control"
+    placeholder="especialidade"
+    required
+    />
+</div>
+
+
+<button type="submit" class="btn btn-primary">Cadastrar</button>
+<button
+type="button"
+id="cancelBtn"
+class="btn btn-secondary"
+style="display: none"
+>
+Cancelar
+</button>
+</form>
+<!-- Tabela para listar produtos -->
+<table class="table table-bordered">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>nome</th>
+<th>email</th>
+<th>quantidade</th>
+<th>especialidade</th>
+</tr>
+</thead>
+<tbody id="EquipeTable"></tbody>
+</table>
+<script>
+// Array para armazenar produtos do servidor
+let equipe = [];
+// ID do produto em edição
+let equipeAtual = null;
+// Função para exibir produtos na tabela
+function displayEquipe() {
+const tbody = document.getElementById("EquipeTable");
+tbody.innerHTML = "";
+equipe.forEach((equipe) => {
+const row = document.createElement("tr");
+row.innerHTML = `
+
+<td>${equipe.id}</td>
+<td>${equipe.nome}</td>
+<td>${equipe.email}</td>
+<td>${equipe.quantidade}</td>
+<td>${equipe.especialidade}</td>
+<td>
+<button class="btn btn-warning btn-sm"
+
+onclick="editEquipe(${equipe.id})">Alterar</button>
+
+<button class="btn btn-danger btn-sm"
+onclick="deleteEquipe(${equipe.id})">Remover</button>
+
+</td>
+`;
+tbody.appendChild(row);
+});
+}
+// Função para carregar um produto no formulário para edição
+function editEquipe(id) {
+equipeAtual = id;
+const equipe = equipe.find((q) => q.id === id);
+document.getElementById("id").value = equipe.id;
+document.getElementById("nome").value = equipe.nome;
+document.getElementById("email").value = equipe.email;
+document.getElementById("quantidade").value = equipe.quantidade;
+document.getElementById("especialidade").value = equipe.especialidade;
+// Mostra o botão cancelar durante a edição
+document.getElementById("cancelBtn").style.display = "inline-block";
+}
+// Função para remover produto do servidor e atualizar a lista
+function deleteEquipe(id) {
+fetch("http://localhost:3001/equipe/" + id, {
+method: "DELETE",
+})
+.then(() => {
+equipe = equipe.filter((q) => q.id !== id);
+
+displayEquipe();
+})
+.catch((error) => console.error("Error:", error));
+}
+// Evento para lidar com o envio do formulário
+document
+.getElementById("equipeForm")
+.addEventListener("submit", function (event) {
+event.preventDefault();
+// Coleta os valores do formulário
+const equipe = {
+id: parseInt(document.getElementById("id").value),
+nome: document.getElementById("nome").value,
+email: document.getElementById("email").value,
+quantidade: parseInt(document.getElementById("quantidade").value),
+especialidade: document.getElementById("especialidade").value,
+};
+if (equipeAtual) {
+// Se estiver editando
+fetch("http://localhost:3001/equipe/" + equipeAtual, {
+method: "PUT",
+headers: {
+"Content-Type": "application/json",
+},
+body: JSON.stringify(equipe),
+})
+.then((response) => response.json())
+.then((data) => {
+const index = equipe.findIndex((q) => q.id === produtoAtual);
+equipe[index] = data;
+displayEquipe();
+// Limpa o formulário e reseta o produto em edição
+document.getElementById("equipeForm").reset();
+equipeAtual = null;
+document.getElementById("cancelBtn").style.display = "none";
+})
+.catch((error) => console.error("Error:", error));
+} else {
+// Se for um novo produto
+fetch("http://localhost:3001/equipe", {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+},
+body: JSON.stringify(equipe),
+})
+.then((response) => response.json())
+.then((data) => {
+equipe.push(data);
+displayEquipe();
+document.getElementById("equipeForm").reset();
+})
+.catch((error) => console.error("Error:", error));
+
+}
+});
+// Cancela a edição e limpa o formulário
+document
+.getElementById("cancelBtn")
+.addEventListener("click", function () {
+equipeAtual = null;
+document.getElementById("equipeForm").reset();
+this.style.display = "none";
+});
+// Carrega produtos do servidor ao carregar a página
+fetch("http://localhost:3001/equipe/")
+.then((response) => response.json())
+.then((data) => {
+equipe = data;
+displayEquipe();
+})
+.catch((error) => console.error("Error:", error));
+</script>
+<!-- Bibliotecas JS auxiliares (Bootstrap requer jQuery e Popper.js) -->
+<script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

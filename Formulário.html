@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 15</title>
+</head>
+<body>
+    <form action="https://jkorpela.fi/cgi-bin/echo.cgi" method="post" >
+        <label for="meutexto"><strong>Digite seus comentários no campo abaixo:</strong></label>
+        <br>
+        <br>
+        <textarea id="meutexto" name="meutexto" rows="4" cols="50">
+        
+        </textarea>
+        <br /><br />
+        <form action = "https://jkorpela.fi/cgi-bin/echo.cgi" method = "get">
+          <label for ="contato"><strong>Diga-nos como entrar em contato com você:</strong></label>
+           Nome: <input type = "text" id="lnome" name="lnome"/>
+           E-mail: <input type = "text" id="lemail" name="lemail"/>
+           Fone: <input type = "text" id="lfone" name="lfone"/><br><br>
+           <input type="checkbox" id="novidades" name="novidades" value = "receber novidades"/>
+           <label for = "novidades">Quero receber as novidades do site por e-mail</label><br>
+           <br /><br />
+           <button type="submit" value="Enviar">Enviar Dados</button>
+           <button type="reset" value="Limpar">Limpar Formulário</button>
+        </form>
+       
+        
+</body>
+</html>

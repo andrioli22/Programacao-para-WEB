@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 16</title>
+</head>
+
+<body>
+    <!--Arquivo do qual o formulário irá ser armazenado-->
+    <form action="https://jkorpela.fi/cgi-bin/echo.cgi" method="get">
+        <!--Cadastro-->
+        Nome:<input type="text" id="fnome" name="fnome" /><br>
+        Sobrenome:<input type="text" id="sobrenome" name="sobrenome" /><br>
+        Senha:<input type="password" id="Senha" name="Senha" /><br>
+        <!--Caixa de inserção de imagem-->
+        <label for="caixadefoto">Escolha uma foto:</label>
+        <input type="file" id="caixadefoto" name="caixadefoto" /><br>
+        <!--Caixa de escolha de sexo-->
+        Sexo:
+        <Input type="radio" id="masc" name="masc" value="masculino" />
+        <label for="masc">Masculino</label>
+        <Input type="radio" id="fem" name="fem" value="feminino" />
+        <label for="fem">Feminino</label>
+        <br>
+        <!--Caixa de seleção de estado-->
+        <label for="estado">Selecione um estado:</label>
+        <select name="Estado" id="estado">
+            <option value="empty"></option>
+            <option value="São Paulo">São Paulo</option>
+            <option value="Rio de janeiro">Rio de Janeiro</option>
+        </select>
+        <br>
+        <!--Caixa de seleção de comunicação-->
+        Escolha um ou mais tipos de comunicação:
+        <input type="checkbox" id="musica" name="musica" value="musica">
+        <label for="musica">Musica</label>
+        <input type="checkbox" id="tv" name="tv" value="tv">
+        <label for="tv">Televisão</label>
+        <input type="checkbox" id="fradio" name="fradio" value="fradio">
+        <label for="fradio">Radio</label>
+        <br>
+        <!--Caixa de observações-->
+        <label for="obs">Observações:</label>
+        <textarea id="obs" name="obs" rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit" value="Enviar">Enviar</button>
+        <button type="reset" value="da">Desfazer alterações</button>
+
+
+    </form>
+
+</body>
+
+</html>

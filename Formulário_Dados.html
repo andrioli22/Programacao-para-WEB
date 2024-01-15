@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 17</title>
+</head>
+
+<body>
+    <!--Tela de cadastro, Primeira caixa-->
+    <form action="https://jkorpela.fi/cgi-bin/echo.cgi" method="get">
+        <fieldset>
+            <legend>Dados Pessoais</legend>
+            Nome:<input type="text" id="nome" name="nome" /><br>
+            Idade:<input type="idade" id="idade" name="idade" /><br>
+        </fieldset>
+        <!--Tela de cadastro, Segunda caixa, seleção de escolaridade-->
+        <fieldset>
+            <legend>Dados profissionais</legend>
+            <label for="escolaridade">Escolaridade:</label>
+            <select name="escolaridade" id="escolaridade">
+                <option value="empty"></option>
+                <option value="EM">Ensino Médio</option>
+                <option value="ES">Ensino superior</option>
+            </select>
+            <br>
+            <!--Tela de cadastro, Segunda caixa, seleção da área de atuação-->
+            Área de atuação:
+            <input type="checkbox" id="gerencia" name="gerencia" value="gerencia" />
+            <label for="gerencia">Gerencia</label>
+            <input type="checkbox" id="Financeiro" name="Financeiro" value="Financeiro" />
+            <label for="Financeiro">Financeiro</label>
+            <input type="checkbox" id="Recepção" name="Recepção" value="Recepção" />
+            <label for="Recepção">Recepção</label>
+        </fieldset>
+    </form>
+
+</body>
+
+</html>
